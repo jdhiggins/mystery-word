@@ -97,17 +97,16 @@ def pick_word(level, word_list):
     return word
 
 def ask_for_a_guess(guessed_letters):
-    guessed_letters_save = guessed_letters
     letter = input("Please guess a letter: ")
     if len(letter) != 1:
         print("One letter only please!")
-        ask_for_a_guess(guessed_letters_save)
+        return ask_for_a_guess(guessed_letters)
     elif letter in guessed_letters:
         print("Please guess a letter not already guessed.")
-        ask_for_a_guess(guessed_letters_save)
+        return ask_for_a_guess(guessed_letters)
     elif letter.isdigit():
         print("Please guess a letter only, no numbers or other.")
-        ask_for_a_guess(guessed_letters_save)
+        return ask_for_a_guess(guessed_letters)
     else:
         return letter
 
@@ -123,8 +122,8 @@ if __name__ == "__main__":
     while counter < 8:
         print("You have {} guesses left.".format(8 - counter))
         guess = ask_for_a_guess(guessed_letters)
-        if guess:
-            guessed_letters.append(guess)
+#        if guess:
+        guessed_letters.append(guess)
         print(display_word(word, guessed_letters))
         print(guessed_letters)
         if is_word_complete(word, guessed_letters):
