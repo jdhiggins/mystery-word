@@ -22,8 +22,22 @@ def easy_words(word_list):
             easy_words.append(word)
     return easy_words
 
+def medium_words(word_list):
+    medium_words = []
+    for word in word_list:
+        if len(word) > 5 and len(word) < 9:
+            medium_words.append(word)
+    return medium_words
+
+def hard_words(word_list):
+    hard_words = []
+    for word in word_list:
+        if len(word) > 7:
+            hard_words.append(word)
+    return hard_words
+
 if __name__ == "__main__":
     words = get_text("/usr/share/dict/words")
     clean_text = clean_text(words)
-    easy_words = easy_words(clean_text)
-    print(easy_words)
+    medium_words = medium_words(clean_text)
+    print(medium_words)
