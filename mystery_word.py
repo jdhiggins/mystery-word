@@ -120,16 +120,24 @@ def guess_check(letter, word):
     else:
         return False
 
+def get_level_and_pick_word():
+    level = user_select_level()
+    words = get_text("/usr/share/dict/words")
+    clean_word_list = clean_text(words)
+    return pick_word(level, clean_word_list)
 
-
-
+def play_again():
+    again = (input("Would you like to play again? [Y/n]: ")).lower()
+    if again == "" or again == "y":
+        return True
+    elif again == "n":
+        return False
+    else:
+        return play_again()
 
 if __name__ == "__main__":
     while True:
-        level = user_select_level()
-        words = get_text("/usr/share/dict/words")
-        clean_word_list = clean_text(words)
-        word = pick_word(level, clean_word_list)
+        word = get_level_and_pick_word()
         guessed_letters = []
         correct_guessed_letters = []
         counter = 0
@@ -140,16 +148,15 @@ if __name__ == "__main__":
             guessed_letters.append(guess)
             if guess_check(guess, word):
                 correct_guessed_letters.append(guess)
+            else:
+                counter += 1
             print(display_word(word, guessed_letters))
-
+            print(correct_guessed_letters)
             print(guessed_letters)
             if is_word_complete(word, correct_guessed_letters):
                 print("You win!!")
                 break
-# increment counter only for wrong guess            if guess_
-            counter += 1
             if counter == 8:
                 print("Your word was {}.".format(word))
-        play_again = input("Would you like to play again? [Y/n]: ")
-        if not play_again:
+        if not play_again():
             break
