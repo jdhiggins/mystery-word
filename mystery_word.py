@@ -110,29 +110,46 @@ def ask_for_a_guess(guessed_letters):
     else:
         return letter
 
+def guess_check(letter, word):
+    word_letters = []
+    for item in word:
+        if item not in word_letters:
+            word_letters.append(item)
+    if letter in word_letters:
+        return True
+    else:
+        return False
+
+
+
+
 
 if __name__ == "__main__":
-    level = user_select_level()
-    words = get_text("/usr/share/dict/words")
-    clean_word_list = clean_text(words)
-    word = pick_word(level, clean_word_list)
-    guessed_letters = []
-    counter = 0
-    print(word)
-    while counter < 8:
-        print("You have {} guesses left.".format(8 - counter))
-        guess = ask_for_a_guess(guessed_letters)
-#        if guess:
-        guessed_letters.append(guess)
-        print(display_word(word, guessed_letters))
-        print(guessed_letters)
-        if is_word_complete(word, guessed_letters):
-            play_again = input("You win! Would you like to play again? (Y/n): ")
-            ##how do you restart??
-        counter += 1
-    print("Your word was {}.  Would you like to play again? (Y/n):"
-                    .format(word))
-    if play_again == "y":
-        print("Yay")
-    elif play_again == "n":
-        print("Boo")
+    while True:
+        level = user_select_level()
+        words = get_text("/usr/share/dict/words")
+        clean_word_list = clean_text(words)
+        word = pick_word(level, clean_word_list)
+        guessed_letters = []
+        correct_guessed_letters = []
+        counter = 0
+        print(word)
+        while counter < 8:
+            print("You have {} guesses left.".format(8 - counter))
+            guess = ask_for_a_guess(guessed_letters)
+            guessed_letters.append(guess)
+            if guess_check(guess, word):
+                correct_guessed_letters.append(guess)
+            print(display_word(word, guessed_letters))
+
+            print(guessed_letters)
+            if is_word_complete(word, correct_guessed_letters):
+                print("You win!!")
+                break
+# increment counter only for wrong guess            if guess_
+            counter += 1
+            if counter == 8:
+                print("Your word was {}.".format(word))
+        play_again = input("Would you like to play again? [Y/n]: ")
+        if not play_again:
+            break
