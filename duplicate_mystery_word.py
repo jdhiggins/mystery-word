@@ -123,14 +123,22 @@ def guess_check(letter, word):
     else:
         return False
 
-#def select_word_list():
-
+def select_word_list():
+    good_inputs = ["y", "n", ""]
+    common = (input("""Would you like your potential words list to exclude rare words? [y/N]: """)).lower()
+    if common not in good_inputs:
+        return select_word_list()
+    if common == "y":
+        return("easy_words.txt")
+    if common == "n" or common == "":
+        return("/usr/share/dict/words")
 
 def get_level_and_pick_word():
     """Gets level information from user and picks an appropriate
     word from our dictionary"""
     level = user_select_level()
-    words = get_text("/usr/share/dict/words")
+#    words = get_text("/usr/share/dict/words")
+    words = get_text(select_word_list())
     clean_word_list = clean_text(words)
     return pick_word(level, clean_word_list)
 
@@ -147,7 +155,6 @@ def play_again():
 def counter_loop(word, counter, guessed_letters, correct_guessed_letters):
     print("You have {} guesses left.".format(8 - counter))
     guess = ask_for_a_guess(guessed_letters)
-    print(guess)
     guessed_letters.append(guess)
     if guess_check(guess, word):
         correct_guessed_letters.append(guess)

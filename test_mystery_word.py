@@ -26,7 +26,6 @@ def test_random_word():
     word = random_word(word_list)
     assert word in word_list
 
-
 def test_display_word():
     word = "integration"
     assert display_word(word, []) == "_ _ _ _ _ _ _ _ _ _ _"
