@@ -97,6 +97,7 @@ def pick_word(level, word_list):
     return word
 
 def ask_for_a_guess(guessed_letters):
+    """Asks user for a guess and limits it to one letter character."""
     letter = input("Please guess a letter: ")
     if len(letter) != 1:
         print("One letter only please!")
@@ -111,6 +112,7 @@ def ask_for_a_guess(guessed_letters):
         return letter
 
 def guess_check(letter, word):
+    """Checks to see if a letter is in a word"""
     word_letters = []
     for item in word:
         if item not in word_letters:
@@ -121,12 +123,15 @@ def guess_check(letter, word):
         return False
 
 def get_level_and_pick_word():
+    """Gets level information from user and picks an appropriate
+    word from our dictionary"""
     level = user_select_level()
     words = get_text("/usr/share/dict/words")
     clean_word_list = clean_text(words)
     return pick_word(level, clean_word_list)
 
 def play_again():
+    """Asks user if they would like to play again.  Returns True or False."""
     again = (input("Would you like to play again? [Y/n]: ")).lower()
     if again == "" or again == "y":
         return True
@@ -141,7 +146,6 @@ if __name__ == "__main__":
         guessed_letters = []
         correct_guessed_letters = []
         counter = 0
-        print(word)
         while counter < 8:
             print("You have {} guesses left.".format(8 - counter))
             guess = ask_for_a_guess(guessed_letters)
@@ -151,12 +155,9 @@ if __name__ == "__main__":
             else:
                 counter += 1
             print(display_word(word, guessed_letters))
-            print(correct_guessed_letters)
-            print(guessed_letters)
             if is_word_complete(word, correct_guessed_letters):
                 print("You win!!")
                 break
-            if counter == 8:
-                print("Your word was {}.".format(word))
+        print("Sorry, you lose.  Your word was {}.".format(word))
         if not play_again():
             break
