@@ -140,7 +140,7 @@ def play_again():
     else:
         return play_again()
 
-if __name__ == "__main__":
+def game():
     while True:
         word = get_level_and_pick_word()
         print(word)
@@ -163,3 +163,7 @@ if __name__ == "__main__":
                 print("Sorry, you lose.  Your word was {}.".format(word))
         if not play_again():
             break
+
+
+if __name__ == "__main__":
+    game()
