@@ -14,3 +14,22 @@ def test_choose_word_length():
 def test_create_word_list():
     assert len(create_word_list(6, word_list)) == 2
     assert "rivers" in create_word_list(6, word_list)
+
+test_words = ["ally", "beta", "cool", "deal", "else", "flew", "good", "hope", \
+                "ibex"]
+guess = ["e"]
+
+guess_two_letters = ["e", "o"]
+
+def test_create_word_families():
+    assert create_word_families(test_words, guess) == {"_ _ _ _": ["ally",
+            "cool", "good"], "_ E _ _": ["beta", "deal"], "_ _ E _": ["flew",
+            "ibex"], "E _ _ E": ["else"], "_ _ _ E": ["hope"]}
+
+#    assert create_word_families(test_words, guess_two_letters) == {"_ O O _":
+#            ["cool", "good"], "_ _ _ _": ["ally"]}
+
+test_dict = {"first": [1, 2, 3], "second": [1, 2, 3, 4], "third": [1, 2]}
+
+def test_find_largest_word_family():
+    assert find_largest_word_family(test_dict) == ("second", [1, 2, 3, 4])
