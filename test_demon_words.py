@@ -19,7 +19,7 @@ test_words = ["ally", "beta", "cool", "deal", "else", "flew", "good", "hope", \
                 "ibex"]
 guess = ["e"]
 
-guess_two_letters = ["e", "o"]
+
 
 def test_create_word_families():
     assert create_word_families(test_words, guess) == {"_ _ _ _": ["ally",
@@ -29,7 +29,34 @@ def test_create_word_families():
 #    assert create_word_families(test_words, guess_two_letters) == {"_ O O _":
 #            ["cool", "good"], "_ _ _ _": ["ally"]}
 
+
+
+#def test_check_number_guesses():
+#    assert check_number_guesses(7, "7") == 7
+#    assert check_number_guesses(7, "9") == 9
+#    assert check_number_guesses(7, "25") == 25
+
 test_dict = {"first": [1, 2, 3], "second": [1, 2, 3, 4], "third": [1, 2]}
+test_dict2 = {"_ _ _ _": ["ally", "cool", "good"], "_ E _ _": ["beta", "deal"],
+                "_ _ E _": ["flew", "ibex"], "E _ _ E": ["else"],
+                "_ _ _ E": ["hope"]}
 
 def test_find_largest_word_family():
     assert find_largest_word_family(test_dict) == ("second", [1, 2, 3, 4])
+    assert find_largest_word_family(test_dict2) == ("_ _ _ _", ["ally", "cool",
+                                                    "good"])
+
+guess_two_letters = ["e", "o"]
+guess_three_letters = ["e", "o", "z"]
+guess_four_letters = ["e", "o", "z", "c"]
+
+def test_find_current_word_family():
+    assert find_current_word_family(test_words, guess_two_letters) == ("_ O O _",
+            ["cool", "good"])
+    assert find_current_word_family(test_words, guess_three_letters) == ("_ O O _",
+                ["cool", "good"])
+    assert find_current_word_family(test_words, guess_four_letters) == ("_ O O _",
+                    ["good"])
+
+def test_combine_families():
+    assert combine_families("_ _", "_ A") == "_ A"
