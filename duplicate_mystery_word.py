@@ -125,7 +125,7 @@ def guess_check(letter, word):
 
 def select_word_list():
     good_inputs = ["y", "n", ""]
-    common = (input("""Would you like your potential words list to exclude rare words? [y/N]: """)).lower()
+    common = (input("""Would you like to play the kids version? [y/N]: """)).lower()
     if common not in good_inputs:
         return select_word_list()
     if common == "y":
