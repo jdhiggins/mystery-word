@@ -96,6 +96,11 @@ def pick_word(level, word_list):
 
 def ask_for_a_guess(guessed_letters):
     """Asks user for a guess and limits it to one letter character."""
+    if len(guessed_letters) != 0:
+        print("Your guessed letters are: ", end="")
+        for letter in guessed_letters:
+            print(letter, end=" ")
+        print("\n")
     letter = input("Please guess a letter: ")
     if len(letter) != 1:
         print("One letter only please!")
@@ -155,8 +160,10 @@ def counter_loop(word, counter, guessed_letters, correct_guessed_letters):
     guess = ask_for_a_guess(guessed_letters)
     guessed_letters.append(guess)
     if guess_check(guess, word):
+        print("You guessed correctly!!")
         correct_guessed_letters.append(guess)
     else:
+        print("Sorry, wrong guess!!")
         counter += 1
     print(display_word(word, guessed_letters))
     if is_word_complete(word, correct_guessed_letters):
