@@ -9,7 +9,7 @@ guesses to complete a word. Easy, Medium and Hard mode will change the length of
 Demon Mode is ultra difficult.  The rules are the same, but you may need some
 extra guesses.  You may select up to 25!
 
-The prompt for kids mode will use the word list located in easy_words.txt
+The prompt for kids mode will use the word list located in 'easy_words.txt'
 Otherwise the program will run using the word list at `/usr/share/dict/words`
 
 You will be prompted to exit or play again at the end of each game.
