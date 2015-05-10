@@ -63,9 +63,7 @@ def is_word_complete(word, letter_list):
         if letter not in word_letters:
             word_letters.append(letter)
     sorted_word_letters = sorted(word_letters, key=str)
-#    print(sorted_word_letters)
     sorted_letter_list = sorted(letter_list, key = str)
-#    print(sorted_letter_list)
     if sorted_word_letters == sorted_letter_list:
         return True
     else:
@@ -92,7 +90,7 @@ def pick_word(level, word_list):
         word = random_word(hard_words(word_list))
     else:
         print("Error, level must be e, m, h")
-    print("Your word has {} letters.  You have 8 guesses.  Good luck\n {}".format
+    print("Your word has {} letters.  Good luck\n {}".format
             ((len(word)), display_word(word, [])))
     return word
 
@@ -102,10 +100,10 @@ def ask_for_a_guess(guessed_letters):
     if len(letter) != 1:
         print("One letter only please!")
         return ask_for_a_guess(guessed_letters)
-    elif letter in guessed_letters:
+    elif letter.lower() in guessed_letters:
         print("Please guess a letter not already guessed.")
         return ask_for_a_guess(guessed_letters)
-    elif letter.isdigit():
+    elif not letter.isalpha():
         print("Please guess a letter only, no numbers or other.")
         return ask_for_a_guess(guessed_letters)
     else:
@@ -122,11 +120,22 @@ def guess_check(letter, word):
     else:
         return False
 
+def select_word_list():
+    """Allows user to pick from original word list or version for kids"""
+    good_inputs = ["y", "n", ""]
+    common = (input("""Would you like to play the kids version? [y/N]: """)).lower()
+    if common not in good_inputs:
+        return select_word_list()
+    if common == "y":
+        return("easy_words.txt")
+    if common == "n" or common == "":
+        return("/usr/share/dict/words")
+
 def get_level_and_pick_word():
     """Gets level information from user and picks an appropriate
     word from our dictionary"""
     level = user_select_level()
-    words = get_text("/usr/share/dict/words")
+    words = get_text(select_word_list())
     clean_word_list = clean_text(words)
     return pick_word(level, clean_word_list)
 
@@ -140,26 +149,35 @@ def play_again():
     else:
         return play_again()
 
-if __name__ == "__main__":
+def counter_loop(word, counter, guessed_letters, correct_guessed_letters):
+    """Loops through 8 guesses and declares winner or loser"""
+    print("You have {} guesses left.".format(8 - counter))
+    guess = ask_for_a_guess(guessed_letters)
+    guessed_letters.append(guess)
+    if guess_check(guess, word):
+        correct_guessed_letters.append(guess)
+    else:
+        counter += 1
+    print(display_word(word, guessed_letters))
+    if is_word_complete(word, correct_guessed_letters):
+        print("You win!!")
+        return 9
+    if counter == 8:
+        print("Sorry, you lose.  Your word was {}.".format(word))
+    return counter
+
+def game():
+    """Starts game with picking word and level then calls counter loop"""
     while True:
         word = get_level_and_pick_word()
-        print(word)
+        counter = 0
         guessed_letters = []
         correct_guessed_letters = []
-        counter = 0
         while counter < 8:
-            print("You have {} guesses left.".format(8 - counter))
-            guess = ask_for_a_guess(guessed_letters)
-            guessed_letters.append(guess)
-            if guess_check(guess, word):
-                correct_guessed_letters.append(guess)
-            else:
-                counter += 1
-            print(display_word(word, guessed_letters))
-            if is_word_complete(word, correct_guessed_letters):
-                print("You win!!")
-                break
-            if counter == 8:
-                print("Sorry, you lose.  Your word was {}.".format(word))
+            counter = counter_loop(word, counter, guessed_letters,
+            correct_guessed_letters)
         if not play_again():
             break
+
+if __name__ == "__main__":
+    game()
