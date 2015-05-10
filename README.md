@@ -1,4 +1,23 @@
 # Mystery Word
+To run this program open Terminal and enter:
+                            python3 mystery_word.py for regular mode OR
+                            python3 demon_words.py for demon mode
+
+Mystery Word is a word guessing game.  In regular mode you will have 8
+guesses to complete a word. Easy, Medium and Hard mode will change the length of your word, not the relative rarity of the chosen word.  Correct guesses do not count against your guess total.
+
+Demon Mode is ultra difficult.  The rules are the same, but you may need some
+extra guesses.  You may select up to 25.
+
+The prompt for kids mode will use the word list located in easy_words.txt
+Otherwise the program will run using the word list at `/usr/share/dict/words`
+
+You will be prompted to exit or play again at the end of each game.
+
+If you'd like to exit sooner, please CTRL - C
+
+GOOD LUCK!
+
 
 ## Description
 
