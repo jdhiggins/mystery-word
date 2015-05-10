@@ -110,6 +110,7 @@ def find_current_word_family(original_list, guess_list):
 
 def game():
     while True:
+        #make game_setup() ??
         counter = 0
         guessed_letters = []
         word_list = get_level_and_word_list()
@@ -125,7 +126,6 @@ def game():
             if new_word_family == word_family:
                 print("{} is not in the word.".format(guess))
                 print(word_family)
-#                print(new_word_family)
                 counter += 1
             else:
                 print("Good guess!")
@@ -136,6 +136,7 @@ def game():
                 counter = number_guesses + 1
             if counter == number_guesses:
                 print("Sorry, you lose.  Your word was {}.".format(new_word_list[0]))
+                print(new_word_list)
         if not play_again():
             break
 
