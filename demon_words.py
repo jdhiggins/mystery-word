@@ -109,43 +109,73 @@ def find_current_word_family(original_list, guess_list):
     return current_family, new_list
 
 def game_setup():
+    """Sets counter and gets word list and number of guesses."""
     counter = 0
     guessed_letters = []
     word_list = get_level_and_word_list()
+    see_words = see_words_left()
     number_guesses = get_number_guesses(len(word_list[0]))
     word_family = display_word(word_list[0],[])
-    return (counter, guessed_letters, word_list, number_guesses, word_family)
+    return (counter, guessed_letters, word_list, number_guesses, word_family,
+             see_words)
+
+def see_words_left():
+    """Asks user if they would like to see the number of words left in the
+    current word family. Returns True or False."""
+    see_words = (input("Would you like to see the word family length? [Y/n]: ")).lower()
+    if see_words == "" or see_words == "y":
+        return True
+    elif see_words == "n":
+        return False
+    else:
+        return see_words_left()
+
+def get_guess(guessed_letters, number_guesses, counter):
+    """Gets guess and returns guess and guessed_letters"""
+    print("You have {} guesses left.".format(number_guesses - counter))
+    if len(guessed_letters) != 0:
+        print("Your guessed letters are: ", end="")
+        for letter in guessed_letters:
+            print(letter, end=" ")
+        print("\n")
+    guess = ask_for_a_guess(guessed_letters)
+    guessed_letters.append(guess)
+    return guessed_letters, guess
+
 
 def game():
     while True:
         (counter, guessed_letters, word_list, number_guesses,
-        word_family) = game_setup()
+        word_family, see_words) = game_setup()
         while counter < number_guesses:
-            print("You have {} guesses left.".format(number_guesses - counter))
-            guess = ask_for_a_guess(guessed_letters)
-            guessed_letters.append(guess)
-            print("Your guessed letters are: ", end="")
-            for letter in guessed_letters:
-                print(letter, end=" ")
+            guessed_letters, guess = get_guess(guessed_letters, number_guesses,
+                                        counter)
             new_word_family, new_word_list = find_current_word_family(word_list,
                                                 guessed_letters)
+            if see_words == True:
+                print("\nThere are now {} words in the word list".format
+                        (len(new_word_list)))
             if new_word_family == word_family:
-                print("\n{} is not in the word.".format(guess))
-                print(word_family)
+                print("*" * 25 + "\n{} is not in the word.".format(guess) +
+                        "\n" + "*" * 25 + "\n" + word_family + "\n" + "*" * 25)
                 counter += 1
             else:
-                print("\nGood guess!")
                 word_family = new_word_family
-                print(word_family)
+                print("*" * 25 + "\nGood guess!" + "\n" + "*" * 25 + "\n" +
+                        word_family + "\n" + "*" * 25)
             if "_" not in new_word_family:
-                print("\nYou win!")
+                print("!" * 25 + "\nYou win!  Congratulations!!!!!" + "\n" +
+                        "!" * 25)
                 counter = number_guesses + 1
             if counter == number_guesses:
                 print("\nSorry, you lose.  Your word was {}.".format(new_word_list[0]))
-                print(new_word_list)
+                if see_words == True:
+                    print("The words left in the word family were: ", end="")
+                    for word in new_word_list:
+                        print(word + " ", end="")
+                    print("\n")
         if not play_again():
             break
-
 
 if __name__ == "__main__":
     game()
