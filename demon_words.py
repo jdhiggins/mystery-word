@@ -1,8 +1,10 @@
 import re
 import random
-from duplicate_mystery_word import *
+from mystery_word import *
 
 def get_level_and_word_list():
+    """Asks for user level selection, creates word list and reports on length
+    of word chosen"""
     level = user_select_level()
     words = get_text(select_word_list())
     clean_word_list = clean_text(words)
@@ -11,9 +13,11 @@ def get_level_and_word_list():
     return new_word_list
 
 def find_longest_word(word_list):
+    """Finds longest word in a list of words"""
     return len(sorted(word_list, key=len, reverse=True)[0])
 
 def choose_word_length(level, longest_word):
+    """Chooses word length based on user-chosen level"""
     if level == "e":
         return random.choice([4, 5, 6])
     if level == "m":
@@ -25,15 +29,18 @@ def choose_word_length(level, longest_word):
         return random.choice(number_list)
 
 def create_word_list(level, word_list):
+    """Given user level and word list, selects word length and creates word list
+    of words of selected length.  If there are no words of that length, prompts
+    for new choice"""
     word_length = choose_word_length(level, find_longest_word(word_list))
     new_word_list = []
     for word in word_list:
         if len(word) == word_length:
             new_word_list.append(word)
     if new_word_list == []:
+        print("I don't have any words of that length")
         return create_word_list(level, word_list)
     return new_word_list
-
 
 def get_number_guesses(length_word):
     """Gets a number of guesses from the user between word length and 25"""
@@ -48,11 +55,8 @@ def get_number_guesses(length_word):
     else:
         return guesses
 
-#def check_word_family(new_family, old_family):
-
-
 def create_word_families(word_list, guess): #guess needs to be a list
-    """Create word family dictionaries based on a list of words, current
+    """Create word family dictionaries based on a list of words in the current
     word family and a new guess"""
     word_family_dict = {}
     for word in word_list:
@@ -63,8 +67,8 @@ def create_word_families(word_list, guess): #guess needs to be a list
     return word_family_dict
 
 def find_largest_word_family(word_family_dictionary):
-    """Finds largest word family given dictionary with word family as key and list
-        of words as value"""
+    """Finds largest word family given a dictionary with key:word family and
+    value: list of words"""
     most = (sorted(word_family_dictionary.items(), key=lambda x: (len(x[1]), x[0]),
             reverse=True))[0]
     most_family = most[0]
@@ -74,6 +78,9 @@ def find_largest_word_family(word_family_dictionary):
     return largest_family
 
 def combine_families(current_family, new_family):
+    """Adds new letter to old word family to calculate new word family for
+    display.  This is used when the user guess is 'correct' and word family
+    is changed"""
     counter = 0
     word_in_list = []
     for letter in current_family:
@@ -87,6 +94,8 @@ def combine_families(current_family, new_family):
 
 
 def find_current_word_family(original_list, guess_list):
+    """Given word list and list of guesses calculates longest current word
+    family"""
     #guesses must be in correctorder
     new_list = original_list
     current_family = display_word(new_list[0], [])
@@ -115,7 +124,7 @@ def game():
                                                 guessed_letters)
             if new_word_family == word_family:
                 print("{} is not in the word.".format(guess))
-#                print(word_family)
+                print(word_family)
 #                print(new_word_family)
                 counter += 1
             else:
