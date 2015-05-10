@@ -96,7 +96,7 @@ def combine_families(current_family, new_family):
 def find_current_word_family(original_list, guess_list):
     """Given word list and list of guesses calculates longest current word
     family"""
-    #guesses must be in correctorder
+    #guesses must be in order guessed
     new_list = original_list
     current_family = display_word(new_list[0], [])
     for guess in guess_list:
@@ -108,34 +108,40 @@ def find_current_word_family(original_list, guess_list):
         current_family = combine_families(current_family, new_family)
     return current_family, new_list
 
+def game_setup():
+    counter = 0
+    guessed_letters = []
+    word_list = get_level_and_word_list()
+    number_guesses = get_number_guesses(len(word_list[0]))
+    word_family = display_word(word_list[0],[])
+    return (counter, guessed_letters, word_list, number_guesses, word_family)
+
 def game():
     while True:
-        #make game_setup() ??
-        counter = 0
-        guessed_letters = []
-        word_list = get_level_and_word_list()
-        number_guesses = get_number_guesses(len(word_list[0]))
-        word_family = display_word(word_list[0],[])
+        (counter, guessed_letters, word_list, number_guesses,
+        word_family) = game_setup()
         while counter < number_guesses:
             print("You have {} guesses left.".format(number_guesses - counter))
             guess = ask_for_a_guess(guessed_letters)
             guessed_letters.append(guess)
-            print(guessed_letters)
+            print("Your guessed letters are: ", end="")
+            for letter in guessed_letters:
+                print(letter, end=" ")
             new_word_family, new_word_list = find_current_word_family(word_list,
                                                 guessed_letters)
             if new_word_family == word_family:
-                print("{} is not in the word.".format(guess))
+                print("\n{} is not in the word.".format(guess))
                 print(word_family)
                 counter += 1
             else:
-                print("Good guess!")
+                print("\nGood guess!")
                 word_family = new_word_family
                 print(word_family)
             if "_" not in new_word_family:
-                print("You win!")
+                print("\nYou win!")
                 counter = number_guesses + 1
             if counter == number_guesses:
-                print("Sorry, you lose.  Your word was {}.".format(new_word_list[0]))
+                print("\nSorry, you lose.  Your word was {}.".format(new_word_list[0]))
                 print(new_word_list)
         if not play_again():
             break
