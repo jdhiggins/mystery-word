@@ -133,11 +133,6 @@ def see_words_left():
 def get_guess(guessed_letters, number_guesses, counter):
     """Gets guess and returns guess and guessed_letters"""
     print("You have {} guesses left.".format(number_guesses - counter))
-    if len(guessed_letters) != 0:
-        print("Your guessed letters are: ", end="")
-        for letter in guessed_letters:
-            print(letter, end=" ")
-        print("\n")
     guess = ask_for_a_guess(guessed_letters)
     guessed_letters.append(guess)
     return guessed_letters, guess
